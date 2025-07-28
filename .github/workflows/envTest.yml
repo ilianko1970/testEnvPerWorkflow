@@ -30,4 +30,4 @@ jobs:
 
       - name: Show Environment Variable
         # Echo the variable to the log
-        run: echo "The value is ${{ env.env_var }} ${{ env.env_var }} ${{ env.env_var2 }}"
+        run: echo "The value is ${{ vars.env_var }}  ${{ env.env_var2 }}"
