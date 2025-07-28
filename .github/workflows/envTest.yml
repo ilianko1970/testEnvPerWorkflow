@@ -1,1 +1,36 @@
-test
+name: Manual Environment Dispatch
+
+# This workflow can only be triggered manually
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment'
+        required: true
+        type: choice
+        default: 'dev'
+        options:
+          - dev
+          - prod
+
+jobs:
+  display-variable:
+    # The job will run on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    # Set the environment name based on the user's choice
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: Set Environment Variable
+        # Set the 'env_var' based on the chosen input
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "dev" ]]; then
+            echo "env_var2=Hello from the Development Environment! 🚀" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+            echo "env_var2=Welcome to the Production Environment! ✨" >> $GITHUB_ENV
+          fi
+
+      - name: Show Environment Variable
+        # Echo the variable to the log
+        run: echo "The value is ${{ env.env_var2 }}"
